@@ -1,0 +1,51 @@
+name: daily
+
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      GSC_PROPERTY: ${{ secrets.GSC_PROPERTY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: install deps
+        run: pip install -r engine/requirements.txt
+
+      - name: write service account key
+        env:
+          GSC_SA_JSON: ${{ secrets.GSC_SA_JSON }}
+        run: printf '%s' "$GSC_SA_JSON" > engine/ingest/service_account.json
+
+      - name: build database from specs
+        run: |
+          python engine/db/init_db.py
+          python engine/register_all.py
+
+      - name: fetch GSC (last 60 days)
+        run: |
+          python engine/ingest/fetch_gsc.py --start "$(date -d '60 days ago' +%F)" --end "$(date +%F)"
+
+      - name: compute status and sitemap
+        run: |
+          python engine/compute_status.py
+          python engine/build_sitemap.py
+
+      - name: commit results
+        run: |
+          git config user.name "dooguya-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/_status/data.json public/sitemap.xml
+          git commit -m "daily: update status and sitemap" || echo "no changes"
+          git push
