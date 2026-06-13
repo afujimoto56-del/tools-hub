@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>割り勘電卓（端数調整つき）｜道具屋</title>
+<meta name="description" content="合計金額と人数から1人あたりを計算。10円・100円単位で端数を寄せ、幹事が引き受ける差額まで出す割り勘電卓。">
+<link rel="canonical" href="https://dooguya.com/tools/wari-calc/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"割り勘電卓（端数調整つき）",
+  "applicationCategory":"FinanceApplication",
+  "operatingSystem":"Web",
+  "url":"https://dooguya.com/tools/wari-calc/",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 割り勘電卓</p>
+  <h1 class="tool-h1">割り勘電卓（端数調整つき）</h1>
+  <p class="tool-sub">合計金額と人数を入れると、1人あたりの金額と、幹事が引き受ける（または受け取る）端数を計算します。</p>
+
+  <div class="panel">
+    <div class="field">
+      <label for="total">合計金額</label>
+      <div class="row">
+        <input id="total" type="number" inputmode="numeric" min="0" placeholder="0">
+        <span class="unit">円</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="people">人数</label>
+      <div class="row">
+        <input id="people" type="number" inputmode="numeric" min="1" value="2">
+        <span class="unit">人</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="round_to">端数の丸め単位</label>
+      <select id="round_to">
+        <option value="1">1円</option>
+        <option value="10">10円</option>
+        <option value="100" selected>100円</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="result" class="result" aria-live="polite">
+    <div class="big">— <small>円 / 人</small></div>
+    <div class="sub">金額と人数を入れてください</div>
+  </div>
+
+  <button id="copy" class="btn" type="button">結果をコピー</button>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>合計金額と人数を入れるだけです。「端数の丸め単位」を100円にすると1人あたりが100円単位になり、はみ出した差額を幹事がまとめて引き受ける形になります。10円・1円単位にすれば、より細かく割れます。</p>
+    <h2>端数はどうなる？</h2>
+    <p>1人あたりは切り上げで計算します。全員から集めた合計が実際の合計金額を上回るぶんが「幹事の調整額」です。たとえば飲み会で、幹事が少し多めに払う／受け取るときの金額がそのまま分かります。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var totalEl=document.getElementById("total");
+  var peopleEl=document.getElementById("people");
+  var roundEl=document.getElementById("round_to");
+  var result=document.getElementById("result");
+  var copyBtn=document.getElementById("copy");
+  var lastText="";
+
+  function yen(n){ return n.toLocaleString("ja-JP"); }
+
+  function calc(){
+    var total=parseFloat(totalEl.value);
+    var people=parseInt(peopleEl.value,10);
+    var unit=parseInt(roundEl.value,10);
+
+    if(isNaN(total)||total<0||isNaN(people)||people<1){
+      result.className="result warn";
+      result.innerHTML='<div class="big">入力を確認してください</div>'+
+        '<div class="sub">合計金額（0以上）と人数（1人以上）を入れてください</div>';
+      lastText="";
+      return;
+    }
+    var rawPer=total/people;
+    var per=Math.ceil(rawPer/unit)*unit;     // 端数の丸め単位で切り上げ
+    var collected=per*people;
+    var adjust=collected-total;              // 幹事が受け取る/余る額
+
+    result.className="result";
+    var sub = adjust>0
+      ? "全員で集めると "+yen(collected)+" 円。幹事が "+yen(adjust)+" 円ぶん多く受け取る形です。"
+      : "ちょうど割り切れました。";
+    result.innerHTML='<div class="big">'+yen(per)+' <small>円 / 人</small></div>'+
+                     '<div class="sub">'+sub+'</div>';
+    lastText="割り勘: 1人 "+yen(per)+"円 ×"+people+"人（合計"+yen(total)+"円、幹事調整"+yen(adjust)+"円）";
+  }
+
+  [totalEl,peopleEl,roundEl].forEach(function(el){
+    el.addEventListener("input",calc); el.addEventListener("change",calc);
+  });
+
+  copyBtn.addEventListener("click",function(){
+    if(!lastText){ return; }
+    navigator.clipboard && navigator.clipboard.writeText(lastText).then(function(){
+      copyBtn.textContent="コピーしました"; setTimeout(function(){copyBtn.textContent="結果をコピー";},1500);
+    });
+  });
+
+  calc();
+})();
+</script>
+</body>
+</html>

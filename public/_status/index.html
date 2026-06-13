@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>選別卓 — 道具屋</title>
+<style>
+  /* ── デザイントークン ─────────────────────────────────────────
+     思想: 9割は設計どおり死ぬ工場。だから「死」は静かな日常色にし、
+     視覚的な強さは唯一「勝者(張る)」にだけ使う。当たりを見逃さない卓。 */
+  :root{
+    --bg:#EEF0F3; --surface:#FFFFFF; --surface-2:#F7F8FA;
+    --ink:#15181E; --ink-soft:#5A616E; --ink-faint:#9097A2;
+    --hair:#DCE0E7;
+    --win:#0E7C5A;       /* 張る：唯一の鮮やかな色 */
+    --win-bg:#E7F4EE; --win-glow:rgba(14,124,90,.18);
+    --kill:#B05B4D;      /* 殺す：くすんだ退役色（警報ではない） */
+    --improve:#B07712;   /* 要改善：琥珀 */
+    --watch:#818A98;     /* 観察：中立グレー */
+    --jp:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic",Meiryo,system-ui,sans-serif;
+    --mono:ui-monospace,"SFMono-Regular",Menlo,"JetBrains Mono","Roboto Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--jp);
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+    padding:28px 20px 80px;
+  }
+  .wrap{max-width:980px;margin:0 auto;}
+
+  /* ── ヘッダー ── */
+  header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;
+    padding-bottom:14px;border-bottom:2px solid var(--ink);}
+  header h1{font-size:20px;font-weight:800;letter-spacing:.04em;margin:0;}
+  header h1 .sub{font-weight:600;color:var(--ink-soft);font-size:13px;letter-spacing:.08em;margin-left:6px;}
+  header .meta{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);
+    text-align:right;line-height:1.6;}
+  header .meta b{color:var(--ink);font-weight:600;}
+
+  /* ── ステータス帯（件数）── */
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--hair);border:1px solid var(--hair);border-radius:10px;
+    overflow:hidden;margin:18px 0 26px;}
+  .stat{background:var(--surface);padding:16px 18px;}
+  .stat .n{font-family:var(--mono);font-size:34px;font-weight:700;line-height:1;letter-spacing:-.02em;}
+  .stat .lab{font-size:12px;color:var(--ink-soft);margin-top:7px;font-weight:600;letter-spacing:.04em;}
+  .stat .act{font-size:11px;color:var(--ink-faint);margin-top:2px;}
+  /* 張る列を主役に */
+  .stat.double_down{background:var(--win-bg);}
+  .stat.double_down .n{color:var(--win);}
+  .stat.double_down.zero .n{color:var(--ink-faint);}
+  .stat.kill .n{color:var(--kill);}
+  .stat.improve .n{color:var(--improve);}
+  .stat.watch .n{color:var(--ink);}
+
+  /* ── キュー見出し ── */
+  .qhead{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;}
+  .qhead h2{font-size:15px;font-weight:800;letter-spacing:.06em;margin:0;}
+  .qhead .hint{font-size:12px;color:var(--ink-soft);}
+
+  /* ── カード ── */
+  .card{background:var(--surface);border:1px solid var(--hair);border-left:4px solid var(--watch);
+    border-radius:10px;padding:14px 16px;margin-bottom:10px;
+    display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:start;}
+  .card.kill{border-left-color:var(--kill);}
+  .card.improve{border-left-color:var(--improve);}
+  .card.watch{border-left-color:var(--watch);opacity:.92;}
+  /* 勝者：唯一の華。光らせて少し持ち上げる */
+  .card.double_down{border:1px solid var(--win);border-left:4px solid var(--win);
+    background:var(--win-bg);box-shadow:0 6px 28px var(--win-glow);}
+
+  .card .main{min-width:0;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+    padding:2px 8px;border-radius:999px;color:#fff;margin-bottom:6px;}
+  .tag.double_down{background:var(--win);}
+  .tag.kill{background:var(--kill);}
+  .tag.improve{background:var(--improve);}
+  .tag.watch{background:var(--watch);}
+
+  .title{font-size:15.5px;font-weight:700;margin:0;}
+  .title a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;}
+  .title a:hover{border-bottom-color:currentColor;}
+  .query{font-size:12.5px;color:var(--ink-soft);margin:3px 0 0;}
+  .query .k{color:var(--ink-faint);}
+
+  .verdict{font-size:13px;font-weight:700;margin:9px 0 1px;}
+  .card.double_down .verdict{color:var(--win);}
+  .card.kill .verdict{color:var(--kill);}
+  .card.improve .verdict{color:var(--improve);}
+  .reason{font-size:12px;color:var(--ink-soft);margin:0;}
+
+  .metrics{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:9px;font-family:var(--mono);font-size:12px;}
+  .metrics .m{color:var(--ink-soft);}
+  .metrics .m b{color:var(--ink);font-weight:600;}
+
+  /* 右カラム：スパークライン＋アクション */
+  .side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+  .spark{display:block;}
+  .spark .cap{font-family:var(--mono);font-size:10px;color:var(--ink-faint);text-align:right;margin-top:2px;}
+  .btn{font-family:var(--jp);font-size:12px;font-weight:600;cursor:pointer;
+    border:1px solid var(--hair);background:var(--surface);color:var(--ink);
+    border-radius:7px;padding:6px 12px;text-decoration:none;white-space:nowrap;}
+  .btn:hover{border-color:var(--ink-soft);}
+  .card.double_down .btn{background:var(--win);color:#fff;border-color:var(--win);}
+  .card.double_down .btn:hover{filter:brightness(1.08);}
+
+  /* 観察中の折りたたみ */
+  details.watchbox{margin-top:14px;}
+  details.watchbox > summary{cursor:pointer;list-style:none;font-size:13px;font-weight:700;
+    color:var(--ink-soft);padding:10px 0;border-top:1px dashed var(--hair);}
+  details.watchbox > summary::-webkit-details-marker{display:none;}
+  details.watchbox > summary::before{content:"▸ ";color:var(--ink-faint);}
+  details.watchbox[open] > summary::before{content:"▾ ";}
+
+  /* 状態（エラー/空） */
+  .notice{background:var(--surface);border:1px solid var(--hair);border-radius:10px;
+    padding:22px;color:var(--ink-soft);font-size:14px;line-height:1.7;}
+  .notice b{color:var(--ink);}
+  .notice code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);
+    padding:2px 6px;border-radius:5px;}
+
+  @media(max-width:640px){
+    .strip{grid-template-columns:repeat(2,1fr);}
+    .card{grid-template-columns:1fr;}
+    .side{flex-direction:row;align-items:center;justify-content:space-between;width:100%;}
+    header .meta{margin-left:0;text-align:left;width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>選別卓<span class="sub">道具屋 / triage</span></h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div id="app">
+    <div class="notice">読み込み中…</div>
+  </div>
+</div>
+
+<script>
+const BUCKET_ORDER = ["double_down","kill","improve","watch"];
+const BUCKET_JP = {double_down:"張る候補", kill:"殺す候補", improve:"要改善", watch:"観察中"};
+const BUCKET_ACT = {double_down:"いま広げる", kill:"退場させる", improve:"一度だけ直す", watch:"操作不要"};
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function pct(x){return (x==null)?"—":(x*100).toFixed(1)+"%";}
+function pos(x){return (x==null)?"—":x.toFixed(1)+"位";}
+
+/* 直近28日のスパークライン（表示=面、クリックのあった日=点）。色はバケツ色。 */
+function sparkline(card){
+  const imp = card.spark_imp || [], clk = card.spark_clicks || [];
+  const W=120,H=34,P=2,n=imp.length;
+  const max=Math.max(1,...imp);
+  const x=i=> P + i*(W-2*P)/Math.max(1,n-1);
+  const y=v=> H-P - (v/max)*(H-2*P);
+  const col=getComputedStyle(document.documentElement).getPropertyValue("--"+card.bucket).trim()||"#818A98";
+  let area="M "+x(0)+" "+(H-P);
+  imp.forEach((v,i)=> area+=" L "+x(i).toFixed(1)+" "+y(v).toFixed(1));
+  area+=" L "+x(n-1)+" "+(H-P)+" Z";
+  let line="M "+x(0)+" "+y(imp[0]).toFixed(1);
+  imp.forEach((v,i)=>{ if(i) line+=" L "+x(i).toFixed(1)+" "+y(v).toFixed(1);});
+  let dots="";
+  clk.forEach((c,i)=>{ if(c>0) dots+=`<circle cx="${x(i).toFixed(1)}" cy="${y(imp[i]).toFixed(1)}" r="1.8" fill="${col}"/>`;});
+  return `<svg class="spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+    <path d="${area}" fill="${col}" opacity="0.13"/>
+    <path d="${line}" fill="none" stroke="${col}" stroke-width="1.4"/>
+    ${dots}
+  </svg>`;
+}
+
+function cardHTML(c){
+  const m=c.metrics;
+  const metrics = `
+    <span class="m"><b>${m.imp_7d}</b> 表示/7d</span>
+    <span class="m"><b>${m.imp_28d}</b> 表示/28d</span>
+    <span class="m"><b>${m.clicks_28d}</b> クリック/28d</span>
+    <span class="m">順位 <b>${pos(m.pos_28d)}</b></span>
+    <span class="m">CTR <b>${pct(m.ctr_28d)}</b></span>`;
+  const btn = `<a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">ツールを開く ↗</a>`;
+  return `<div class="card ${c.bucket}">
+    <div class="main">
+      <span class="tag ${c.bucket}">${esc(c.bucket_label)} · ${esc(c.action_label)}</span>
+      <p class="title"><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.title)}</a></p>
+      <p class="query"><span class="k">狙ったクエリ:</span> ${esc(c.target_query)||"—"}　<span class="k">公開</span>${c.age_days}日</p>
+      <p class="verdict">${esc(c.verdict)}</p>
+      <p class="reason">${esc(c.reason)}</p>
+      <div class="metrics">${metrics}</div>
+    </div>
+    <div class="side">
+      <div>${sparkline(c)}<div class="cap">直近28日 表示</div></div>
+      ${btn}
+    </div>
+  </div>`;
+}
+
+function render(data){
+  const meta=document.getElementById("meta");
+  meta.innerHTML = `参照日 <b>${esc(data.ref_date)}</b><br>`+
+    `更新 ${esc((data.generated_at||"").replace("T"," "))}　/　GSCは約${data.data_lag_days}日遅延`;
+
+  const c=data.counts;
+  let strip=`<div class="strip">`;
+  for(const b of BUCKET_ORDER){
+    const z = (b==="double_down" && c[b]===0) ? " zero":"";
+    strip+=`<div class="stat ${b}${z}">
+      <div class="n">${c[b]}</div>
+      <div class="lab">${BUCKET_JP[b]}</div>
+      <div class="act">${BUCKET_ACT[b]}</div>
+    </div>`;
+  }
+  strip+=`</div>`;
+
+  const act = data.queue.filter(q=>q.bucket!=="watch");
+  const watch = data.queue.filter(q=>q.bucket==="watch");
+
+  let body = `<div class="qhead"><h2>今日やること</h2>`+
+    `<span class="hint">上から順に。${act.length}件の操作 / 観察${watch.length}件</span></div>`;
+
+  if(act.length===0){
+    body+=`<div class="notice">今日の操作はありません。観察を続けます。<br>
+      当たりは時間がかかる前提（べき乗則）。データが溜まるのを待ちます。</div>`;
+  }else{
+    body+=act.map(cardHTML).join("");
+  }
+
+  if(watch.length){
+    body+=`<details class="watchbox"><summary>観察中（${watch.length}）— 今日は操作不要</summary>`+
+      watch.map(cardHTML).join("")+`</details>`;
+  }
+
+  document.getElementById("app").innerHTML = strip + body;
+}
+
+fetch("data.json",{cache:"no-store"})
+  .then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(render)
+  .catch(err=>{
+    document.getElementById("app").innerHTML =
+    `<div class="notice"><b>data.json を読み込めませんでした。</b>（${esc(err.message)}）<br><br>
+     ブラウザはローカルファイルへの <code>fetch</code> を拒否します。
+     dashboard フォルダで簡易サーバを立ててから開いてください:<br><br>
+     <code>cd dashboard && python -m http.server 8000</code><br><br>
+     そのうえで <code>http://localhost:8000/</code> を開きます。<br>
+     data.json がまだ無い場合は先に <code>python compute_status.py</code> を実行してください。</div>`;
+  });
+</script>
+</body>
+</html>

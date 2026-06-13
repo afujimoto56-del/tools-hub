@@ -1,0 +1,42 @@
+id: wari-calc
+title: 割り勘電卓（端数調整つき）
+summary: >
+  合計金額と人数から1人あたりを計算。10円・100円単位の端数寄せと、
+  幹事が引き受ける差額まで出す。レシート横で即使える。
+
+target_query: 割り勘 端数 計算
+segment: お金の計算
+launched_at: 2026-06-13
+
+inputs:
+  - key: total
+    label: 合計金額
+    type: number
+    unit: 円
+    min: 0
+    default: 0
+  - key: people
+    label: 人数
+    type: number
+    min: 1
+    default: 2
+  - key: round_to
+    label: 端数の丸め単位
+    type: select
+    options: [1円, 10円, 100円]
+    default: 100円
+
+outputs:
+  - 1人あたりの金額（丸め後）
+  - 全員から集める合計と、合計金額との差額（幹事の調整）
+
+logic: |
+  per = ceil( (total / people) を round_to の単位で切り上げ )。
+  collected = per * people。
+  adjust = collected - total（幹事が受け取る/余る額）。
+  people < 1 や total 空欄は計算せず注意文を出す。
+
+print: false
+copyable: true
+related: []
+notes: ""

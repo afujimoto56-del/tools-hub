@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_status/
+
+Sitemap: https://dooguya.com/sitemap.xml

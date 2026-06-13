@@ -1,0 +1,113 @@
+/* =====================================================================
+   道具屋 — 共通スタイル
+   モチーフ: 職人の引き出し（パーツビン）。整然と並んだ、よくできた小道具。
+   速くて読みやすいことを最優先。華は「引き出しラベル」一点に集中させる。
+   ===================================================================== */
+:root{
+  --paper:#ECEEF0;      /* 冷たい紙の地（クリームにしない） */
+  --card:#FFFFFF;
+  --ink:#1A1D21;
+  --ink-soft:#5C636B;
+  --ink-faint:#9AA0A7;
+  --hair:#D4D8DD;
+  --brass:#8A6420;      /* 真鍮＝精密な道具の差し色。リンク/強調に少しだけ */
+  --brass-tint:#F1E9D7;
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"MS PMincho",serif;
+  --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic",Meiryo,system-ui,sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,"Roboto Mono",monospace;
+  --maxw:880px;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); line-height:1.7; -webkit-font-smoothing:antialiased;
+  font-feature-settings:"palt" 1;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px;}
+a{color:var(--brass); text-underline-offset:2px; text-decoration-thickness:1px;}
+
+/* --- サイト見出し（道具屋の看板） --- */
+.masthead{padding:30px 0 0;}
+.masthead .brand{
+  font-family:var(--serif); font-size:30px; font-weight:700; letter-spacing:.14em;
+  color:var(--ink); text-decoration:none; display:inline-block;
+}
+.masthead .eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:.22em; color:var(--brass);
+  text-transform:uppercase; margin:0 0 4px;
+}
+.masthead .lead{color:var(--ink-soft); font-size:15px; margin:10px 0 0; max-width:48ch;}
+.rule{height:2px; background:var(--ink); border:0; margin:22px 0 26px;}
+
+/* --- 道具の引き出しグリッド --- */
+.bins{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; padding:0 0 40px;}
+.bin{
+  position:relative; background:var(--card); border:1px solid var(--hair);
+  border-radius:4px; padding:16px 18px 16px 54px; text-decoration:none; color:inherit;
+  display:block; transition:transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+.bin::before{ /* 引き出しの番号タブ */
+  content:attr(data-idx); position:absolute; left:0; top:0; bottom:0; width:38px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-size:12px; color:var(--ink-faint);
+  background:var(--brass-tint); border-right:1px solid var(--hair);
+  border-radius:4px 0 0 4px;
+}
+.bin:hover{transform:translateX(2px); border-color:var(--brass); box-shadow:-3px 4px 0 var(--brass-tint);}
+.bin .name{font-size:16px; font-weight:700; margin:0;}
+.bin .seg{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--brass); margin:0 0 4px;}
+.bin .desc{font-size:13px; color:var(--ink-soft); margin:5px 0 0;}
+.bin .open{font-family:var(--mono); font-size:12px; color:var(--brass); margin-top:10px; display:inline-block;}
+
+.shelfnote{font-size:13px; color:var(--ink-faint); margin:0 0 40px; font-family:var(--mono);}
+
+/* --- 道具ページ（個別ツール） --- */
+.crumbs{font-family:var(--mono); font-size:12px; color:var(--ink-faint); margin:22px 0 0;}
+.crumbs a{color:var(--ink-soft);}
+.tool-h1{font-size:24px; font-weight:800; letter-spacing:.01em; margin:8px 0 4px;}
+.tool-sub{color:var(--ink-soft); font-size:14px; margin:0 0 20px; max-width:54ch;}
+
+.panel{background:var(--card); border:1px solid var(--hair); border-radius:6px; padding:22px; margin-bottom:18px;}
+.field{margin-bottom:16px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block; font-size:13px; font-weight:700; color:var(--ink-soft); margin-bottom:6px;}
+.field .row{display:flex; align-items:center; gap:8px;}
+.field input[type=number], .field select{
+  font-family:var(--sans); font-size:18px; color:var(--ink);
+  width:100%; padding:11px 13px; border:1px solid var(--hair); border-radius:6px; background:#fff;
+}
+.field input:focus, .field select:focus{outline:2px solid var(--brass); outline-offset:1px; border-color:var(--brass);}
+.field .unit{font-size:14px; color:var(--ink-soft); white-space:nowrap;}
+
+/* 結果 */
+.result{background:var(--ink); color:#fff; border-radius:6px; padding:20px 22px; margin-bottom:18px;}
+.result .big{font-family:var(--mono); font-size:34px; font-weight:700; letter-spacing:-.01em; line-height:1.1;}
+.result .big small{font-size:16px; font-weight:400; color:#C9CDD3; margin-left:4px;}
+.result .sub{font-size:13px; color:#C9CDD3; margin-top:8px; font-family:var(--mono);}
+.result.warn{background:var(--brass-tint); color:var(--ink);}
+.result.warn .big{font-size:18px; font-family:var(--sans);}
+
+.btn{
+  font-family:var(--sans); font-size:13px; font-weight:700; cursor:pointer;
+  border:1px solid var(--hair); background:#fff; color:var(--ink);
+  border-radius:7px; padding:9px 16px;
+}
+.btn:hover{border-color:var(--brass);}
+.btn:focus{outline:2px solid var(--brass); outline-offset:1px;}
+
+.about{font-size:14px; color:var(--ink-soft); margin:6px 0 40px;}
+.about h2{font-size:15px; color:var(--ink); margin:24px 0 6px;}
+
+/* --- フッター --- */
+.foot{border-top:1px solid var(--hair); padding:20px 0 36px; margin-top:10px;
+  font-size:12px; color:var(--ink-faint); display:flex; gap:16px; flex-wrap:wrap;}
+.foot a{color:var(--ink-soft);}
+
+@media(max-width:560px){
+  .bins{grid-template-columns:1fr;}
+  .masthead .brand{font-size:26px;}
+}
+@media(prefers-reduced-motion:reduce){
+  .bin{transition:none;}
+}
