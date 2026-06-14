@@ -1,0 +1,16 @@
+id: tategaki
+title: 縦書き変換ツール
+summary: 横書きの文章を貼り付けると、縦書きで表示。手紙や掲示物のレイアウト確認に。そのまま印刷できます。
+target_query: 縦書き 変換
+segment: 文章
+launched_at: 2026-06-13
+inputs:
+  - {key: text, label: 文章, type: text}
+outputs:
+  - 縦書き表示（印刷用）
+logic: |
+  CSSの writing-mode: vertical-rl で縦書き表示する。
+print: true
+copyable: false
+related: []
+notes: ""

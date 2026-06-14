@@ -1,0 +1,18 @@
+id: touban-gen
+title: 当番表ジェネレーター
+summary: メンバーと当番内容（または日付）を入れると、当番表を作成。掃除・係・日直などに。印刷できます。
+target_query: 当番表 作成 無料
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: members, label: メンバー（改行区切り）, type: text}
+  - {key: slots, label: 当番・日付（改行区切り）, type: text}
+  - {key: title, label: 表題, type: text}
+outputs:
+  - 当番表（印刷用）
+logic: |
+  メンバーを当番・日付に順番に割り当てた表を作る。
+print: true
+copyable: false
+related: [kairan-gen]
+notes: ""

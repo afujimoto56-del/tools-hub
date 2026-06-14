@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>連番・通し番号ジェネレーター（ゼロ埋め・コピー/印刷）｜道具屋</title>
+<meta name="description" content="開始番号・個数・桁数（ゼロ埋め）・接頭辞/接尾辞を指定して連番を一括生成。コピーも印刷もできる無料の通し番号メーカー。">
+<link rel="canonical" href="https://dooguya.com/tools/renban-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"連番・通し番号ジェネレーター","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/renban-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 連番・通し番号ジェネレーター</p>
+  <h1 class="tool-h1">連番・通し番号ジェネレーター</h1>
+  <p class="tool-sub">開始番号・個数・桁数・接頭辞や接尾辞を指定して、連番を一括で作ります。コピーも印刷もできます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="prefix">接頭辞（前につく文字）</label><input id="prefix" type="text" placeholder="No."></div>
+    <div class="field"><label for="start">開始番号</label><div class="row"><input id="start" type="number" value="1"></div></div>
+    <div class="field"><label for="count">個数</label><div class="row"><input id="count" type="number" value="10" min="1" max="2000"><span class="unit">個</span></div></div>
+    <div class="field"><label for="digits">桁数（ゼロ埋め・0で無し）</label><div class="row"><input id="digits" type="number" value="3" min="0" max="12"><span class="unit">桁</span></div></div>
+    <div class="field"><label for="suffix">接尾辞（後ろにつく文字）</label><input id="suffix" type="text" placeholder="番"></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="copy" class="btn" type="button">全部コピー</button>
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet" id="out" style="font-family:var(--mono);font-size:15px;line-height:1.8;white-space:pre-wrap;min-height:120px;"></div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>たとえば接頭辞「No.」、開始1、個数10、桁数3にすると、No.001〜No.010 が並びます。整理券・名簿・在庫ラベル・座席番号などにどうぞ。「全部コピー」で表計算やラベル印刷に貼り付けられます。</p>
+    <h2>桁数（ゼロ埋め）とは</h2>
+    <p>桁数を3にすると 1 が「001」、25 が「025」のように、頭にゼロを足して桁をそろえます。並べ替えたときに順番が崩れにくくなります。ゼロ埋めが不要なら桁数を0にしてください。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var ids=["prefix","start","count","digits","suffix"];
+  var out=document.getElementById("out");
+  var lastText="";
+  function pad(n,d){ var s=String(Math.abs(n)); while(s.length<d)s="0"+s; return (n<0?"-":"")+s; }
+  function gen(){
+    var prefix=document.getElementById("prefix").value;
+    var start=parseInt(document.getElementById("start").value,10)||0;
+    var count=Math.min(parseInt(document.getElementById("count").value,10)||0,2000);
+    var digits=parseInt(document.getElementById("digits").value,10)||0;
+    var suffix=document.getElementById("suffix").value;
+    var lines=[];
+    for(var i=0;i<count;i++){ lines.push(prefix+pad(start+i,digits)+suffix); }
+    lastText=lines.join("\n");
+    out.textContent=lastText||"（個数を入れてください）";
+  }
+  ids.forEach(function(id){ document.getElementById(id).addEventListener("input",gen); });
+  document.getElementById("copy").addEventListener("click",function(){
+    if(!lastText)return; var b=document.getElementById("copy");
+    navigator.clipboard&&navigator.clipboard.writeText(lastText).then(function(){
+      b.textContent="コピーしました"; setTimeout(function(){b.textContent="全部コピー";},1500);
+    });
+  });
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  gen();
+})();
+</script>
+</body>
+</html>

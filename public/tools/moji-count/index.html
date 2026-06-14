@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用途別 文字数カウント（X・原稿用紙・メタ説明）｜道具屋</title>
+<meta name="description" content="文章の文字数をその場でカウント。X(Twitter)140字・メタディスクリプション120字・原稿用紙400字など、用途別の上限で「あと何文字書けるか」が分かります。">
+<link rel="canonical" href="https://dooguya.com/tools/moji-count/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"用途別 文字数カウント","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/moji-count/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 用途別 文字数カウント</p>
+  <h1 class="tool-h1">用途別 文字数カウント</h1>
+  <p class="tool-sub">文章を貼ると、文字数をその場で数えます。X(Twitter)や原稿用紙、メタディスクリプションなど、用途ごとの上限で「あと何文字か」が分かります。</p>
+
+  <div class="panel">
+    <div class="field">
+      <label for="text">文章</label>
+      <textarea id="text" placeholder="ここに文章を貼り付け / 入力してください"></textarea>
+    </div>
+  </div>
+
+  <div id="result" class="result" aria-live="polite">
+    <div class="big">0 <small>文字</small></div>
+    <div class="sub">空白なし 0 文字</div>
+  </div>
+
+  <table class="tbl" id="limits" style="margin-bottom:18px;">
+    <thead><tr><th>用途</th><th style="text-align:right;">上限</th><th style="text-align:right;">残り</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <button id="copy" class="btn" type="button">文字数をコピー</button>
+
+  <div class="about">
+    <h2>何を数えている？</h2>
+    <p>「文字数」は改行や空白も含めた全体の長さ、「空白なし」は半角・全角スペースと改行を除いた数です。原稿用紙は400字＝1枚として枚数を表示します。</p>
+    <h2>用途別の上限について</h2>
+    <p>X(Twitter)の投稿は全角140字、検索結果に出るメタディスクリプションは概ね120字前後が目安です。各用途で「上限 − 現在の文字数」を残りとして表示します。残りがマイナスなら超過しています。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var ta=document.getElementById("text");
+  var result=document.getElementById("result");
+  var tb=document.querySelector("#limits tbody");
+  var copyBtn=document.getElementById("copy");
+  var limits=[["X (Twitter)",140],["メタディスクリプション",120],["原稿用紙1枚",400]];
+  var lastText="";
+
+  function count(){
+    var v=ta.value;
+    var all=Array.from(v).length;
+    var noSpace=Array.from(v.replace(/[\s\u3000]/g,"")).length;
+    var sheets=Math.ceil(all/400)||0;
+    result.className="result";
+    result.innerHTML='<div class="big">'+all.toLocaleString()+' <small>文字</small></div>'+
+      '<div class="sub">空白なし '+noSpace.toLocaleString()+' 文字 ／ 原稿用紙 '+sheets+' 枚</div>';
+    var rows="";
+    limits.forEach(function(l){
+      var rest=l[1]-all;
+      var color=rest<0?"color:#b3261e;font-weight:700;":"";
+      rows+='<tr><td>'+l[0]+'</td><td style="text-align:right;">'+l[1]+'</td><td style="text-align:right;'+color+'">'+rest+'</td></tr>';
+    });
+    tb.innerHTML=rows;
+    lastText="文字数 "+all+"（空白なし "+noSpace+"）";
+  }
+  ta.addEventListener("input",count);
+  copyBtn.addEventListener("click",function(){
+    navigator.clipboard&&navigator.clipboard.writeText(lastText).then(function(){
+      copyBtn.textContent="コピーしました"; setTimeout(function(){copyBtn.textContent="文字数をコピー";},1500);
+    });
+  });
+  count();
+})();
+</script>
+</body>
+</html>

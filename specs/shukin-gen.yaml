@@ -1,0 +1,18 @@
+id: shukin-gen
+title: 集金リスト作成
+summary: 集金の項目・金額・メンバーを入れると、集金チェックリストを作成。合計や集まった額も出て、印刷できます。
+target_query: 集金 一覧表 作成
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: title, label: 集金の項目, type: text}
+  - {key: amount, label: 1人あたり金額, type: number, unit: 円}
+  - {key: members, label: メンバー（改行区切り）, type: text}
+outputs:
+  - 集金チェックリスト（印刷用）と合計
+logic: |
+  メンバー数×金額で合計。各行にチェック欄を付けた表を作る。
+print: true
+copyable: false
+related: []
+notes: ""

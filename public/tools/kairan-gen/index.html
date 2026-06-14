@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>回覧板・順番表ジェネレーター（町内会・印刷）｜道具屋</title>
+<meta name="description" content="世帯名を改行で入れると、回覧板を回す順番表を作成。番号と次に回す人を表にして、そのまま印刷できます。町内会・班の回覧に。">
+<link rel="canonical" href="https://dooguya.com/tools/kairan-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"回覧板・順番表ジェネレーター","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/kairan-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 回覧板・順番表ジェネレーター</p>
+  <h1 class="tool-h1">回覧板・順番表ジェネレーター</h1>
+  <p class="tool-sub">世帯名を改行で入れると、回す順番の表を作ります。最後の人は先頭に戻る形です。「印刷」で表だけを印刷できます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="title">表題</label><input id="title" type="text" value="回覧板　回覧順"></div>
+    <div class="field"><label for="households">世帯名（改行で区切る）</label><textarea id="households" style="min-height:150px;">田中
+佐藤
+鈴木
+高橋
+渡辺</textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet">
+    <h2 id="pv-title" style="text-align:center;font-family:var(--serif);margin:0 0 18px;font-size:22px;">回覧板　回覧順</h2>
+    <table class="tbl" id="out"></table>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>世帯名を上から順に改行で入れると、その順番で番号がふられた表ができます。「次に回す」の欄に渡す相手が出るので、誰の次に誰へ回すか一目で分かります。最後の世帯は先頭に戻ります。</p>
+    <h2>印刷して掲示・添付</h2>
+    <p>「印刷する」で表だけが印刷されます。回覧板の表紙に貼ったり、各戸に配ったりして使えます。班・組ごとに作り分けると分かりやすくなります。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var titleEl=document.getElementById("title");
+  var hEl=document.getElementById("households");
+  var out=document.getElementById("out");
+  var pvTitle=document.getElementById("pv-title");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function up(){
+    pvTitle.textContent=titleEl.value||"回覧順";
+    var hh=hEl.value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
+    var rows='<thead><tr><th style="width:64px;text-align:center;">順番</th><th>世帯</th><th>次に回す</th><th style="width:120px;">回した日</th></tr></thead><tbody>';
+    for(var i=0;i<hh.length;i++){
+      var next=hh[(i+1)%hh.length];
+      rows+='<tr><td style="text-align:center;">'+(i+1)+'</td><td>'+esc(hh[i])+'</td><td>'+esc(next)+' へ</td><td></td></tr>';
+    }
+    if(hh.length===0) rows+='<tr><td colspan="4" style="text-align:center;color:#999;">世帯名を入れてください</td></tr>';
+    rows+='</tbody>';
+    out.innerHTML=rows;
+  }
+  titleEl.addEventListener("input",up); hEl.addEventListener("input",up);
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  up();
+})();
+</script>
+</body>
+</html>

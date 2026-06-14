@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>集金リスト作成（幹事用・チェック表を印刷）｜道具屋</title>
+<meta name="description" content="集金の項目・1人あたり金額・メンバーを入れると、集金チェック表を作成。合計や集まった額も計算でき、そのまま印刷できる幹事用の集金リスト。">
+<link rel="canonical" href="https://dooguya.com/tools/shukin-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"集金リスト作成","applicationCategory":"FinanceApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/shukin-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 集金リスト作成</p>
+  <h1 class="tool-h1">集金リスト作成</h1>
+  <p class="tool-sub">項目・1人あたり金額・メンバーを入れると、集金のチェック表を作ります。合計も出ます。「印刷」で表だけを印刷できます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="title">集金の項目</label><input id="title" type="text" value="忘年会 会費"></div>
+    <div class="field"><label for="amount">1人あたり金額</label><div class="row"><input id="amount" type="number" value="3000" min="0"><span class="unit">円</span></div></div>
+    <div class="field"><label for="members">メンバー（改行で区切る）</label><textarea id="members" style="min-height:130px;">田中
+佐藤
+鈴木
+高橋</textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet">
+    <h2 id="pv-title" style="font-family:var(--serif);margin:0 0 6px;font-size:21px;">忘年会 会費</h2>
+    <p id="pv-sub" style="margin:0 0 16px;color:#555;font-size:14px;"></p>
+    <table class="tbl" id="out"></table>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>項目名、1人あたりの金額、メンバーを入れると、各人にチェック欄と金額がついた集金表ができます。表の下に「人数 × 金額 ＝ 集める合計」も表示されます。印刷して、集金しながらチェックを付けていけます。</p>
+    <h2>幹事の手元用に</h2>
+    <p>飲み会・部活・町内会・イベントなど、人からお金を集める場面の管理に。誰から集めたか／まだの人が一目で分かります。「印刷する」で表だけがA4に印刷されます。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var titleEl=document.getElementById("title");
+  var amtEl=document.getElementById("amount");
+  var mEl=document.getElementById("members");
+  var out=document.getElementById("out");
+  var pvTitle=document.getElementById("pv-title");
+  var pvSub=document.getElementById("pv-sub");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n.toLocaleString("ja-JP"); }
+  function up(){
+    pvTitle.textContent=titleEl.value||"集金リスト";
+    var amt=parseInt(amtEl.value,10)||0;
+    var m=mEl.value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
+    var rows='<thead><tr><th style="width:48px;text-align:center;">No.</th><th>氏名</th><th style="text-align:right;">金額</th><th style="width:70px;text-align:center;">集金</th></tr></thead><tbody>';
+    m.forEach(function(name,i){
+      rows+='<tr><td style="text-align:center;">'+(i+1)+'</td><td>'+esc(name)+'</td><td style="text-align:right;">'+yen(amt)+' 円</td><td style="text-align:center;">□</td></tr>';
+    });
+    if(m.length===0) rows+='<tr><td colspan="4" style="text-align:center;color:#999;">メンバーを入れてください</td></tr>';
+    rows+='</tbody>';
+    out.innerHTML=rows;
+    pvSub.textContent="1人 "+yen(amt)+"円 × "+m.length+"人 ＝ 集める合計 "+yen(amt*m.length)+"円";
+  }
+  [titleEl,amtEl,mEl].forEach(function(el){ el.addEventListener("input",up); });
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  up();
+})();
+</script>
+</body>
+</html>

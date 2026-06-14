@@ -1,0 +1,17 @@
+id: amida-gen
+title: あみだくじ作成
+summary: 参加者と結果（あたり等）を入れると、あみだくじを自動生成。線をたどって結果を確認、印刷もできます。
+target_query: あみだくじ 作成 印刷
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: names, label: 参加者（改行区切り）, type: text}
+  - {key: results, label: 結果（改行区切り）, type: text}
+outputs:
+  - あみだくじ図（印刷用）と結果の対応
+logic: |
+  参加者数ぶんの縦線を引き、ランダムに横線を入れる。各列をたどって結果を割り当てる。
+print: true
+copyable: false
+related: []
+notes: ""

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>道具屋 — 小さな道具を、ひとつずつ</title>
-<meta name="description" content="日々のこまごました計算や作成を、その場で片づける小さな道具置き場。割り勘・端数の計算など、必要なものだけを単機能で。">
+<meta name="description" content="日々のこまごました計算や作成を、その場で片づける小さな道具置き場。割り勘・文字数・のし袋・連番・当番表など、必要なものだけを単機能で。">
 <link rel="canonical" href="https://dooguya.com/">
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -21,10 +21,102 @@
   <main>
     <section class="bins" aria-label="道具の一覧">
 
-      <a class="bin" href="/tools/wari-calc/" data-idx="01">
+      <a class="bin" href="/tools/keisha-wari/" data-idx="01">
+        <p class="seg">お金の計算</p>
+        <p class="name">傾斜割り勘電卓</p>
+        <p class="desc">合計と人数に加えて、役職や立場で負担を傾斜配分する割り勘電卓。上司は多め・新人は少なめを自動計算します。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/shugi-calc/" data-idx="02">
+        <p class="seg">お金の計算</p>
+        <p class="name">結婚式の会費・ご祝儀 早見</p>
+        <p class="desc">立場（友人・同僚・親族など）と人数から、ご祝儀・会費の相場の目安と合計をすぐ出します。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/wari-calc/" data-idx="03">
         <p class="seg">お金の計算</p>
         <p class="name">割り勘電卓（端数調整つき）</p>
-        <p class="desc">合計と人数から1人あたりを計算。10円・100円単位の端数寄せと、幹事の調整額まで出します。</p>
+        <p class="desc">合計金額と人数から1人あたりを計算。10円・100円単位の端数寄せと、 幹事が引き受ける差額まで出す。レシート横で即使える。
+</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/aiueo-gen/" data-idx="04">
+        <p class="seg">文章</p>
+        <p class="name">あいうえお作文メーカー</p>
+        <p class="desc">お題の言葉を入れると、各文字を頭文字にした行が並びます。各行に文を書き込んで、きれいに整えて印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/moji-count/" data-idx="05">
+        <p class="seg">文章</p>
+        <p class="name">用途別 文字数カウント</p>
+        <p class="desc">入力した文章の文字数を即カウント。X(Twitter)・原稿用紙・ES・メタディスクリプションなど用途別の上限つきで、あとどれだけ書けるかが分かります。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/tategaki/" data-idx="06">
+        <p class="seg">文章</p>
+        <p class="name">縦書き変換ツール</p>
+        <p class="desc">横書きの文章を貼り付けると、縦書きで表示。手紙や掲示物のレイアウト確認に。そのまま印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/amida-gen/" data-idx="07">
+        <p class="seg">印刷もの</p>
+        <p class="name">あみだくじ作成</p>
+        <p class="desc">参加者と結果（あたり等）を入れると、あみだくじを自動生成。線をたどって結果を確認、印刷もできます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/kairan-gen/" data-idx="08">
+        <p class="seg">印刷もの</p>
+        <p class="name">回覧板・順番表ジェネレーター</p>
+        <p class="desc">世帯名を入れると、回覧板の回す順番表を作成。班・開始位置の指定もでき、印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/koden-gen/" data-idx="09">
+        <p class="seg">印刷もの</p>
+        <p class="name">香典袋 表書きジェネレーター</p>
+        <p class="desc">宗派（仏式・神式・キリスト教）と名前を選ぶと、香典袋の表書きを縦書きで作成。印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/noshi-gen/" data-idx="10">
+        <p class="seg">印刷もの</p>
+        <p class="name">のし袋 表書きジェネレーター</p>
+        <p class="desc">用途（御祝・御礼・御見舞など）と名前を入れると、のし袋の表書きを縦書きで作成。そのまま印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/renban-gen/" data-idx="11">
+        <p class="seg">印刷もの</p>
+        <p class="name">連番・通し番号ジェネレーター</p>
+        <p class="desc">開始番号・個数・桁数・接頭辞/接尾辞を指定して、連番を一括生成。コピーも印刷もできます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/shojo-gen/" data-idx="12">
+        <p class="seg">印刷もの</p>
+        <p class="name">賞状・表彰状ジェネレーター</p>
+        <p class="desc">受賞者名・賞名・本文・日付・贈呈者を入れると、賞状のレイアウトを作成。そのまま印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/shukin-gen/" data-idx="13">
+        <p class="seg">印刷もの</p>
+        <p class="name">集金リスト作成</p>
+        <p class="desc">集金の項目・金額・メンバーを入れると、集金チェックリストを作成。合計や集まった額も出て、印刷できます。</p>
+        <span class="open">ひらく →</span>
+      </a>
+
+      <a class="bin" href="/tools/touban-gen/" data-idx="14">
+        <p class="seg">印刷もの</p>
+        <p class="name">当番表ジェネレーター</p>
+        <p class="desc">メンバーと当番内容（または日付）を入れると、当番表を作成。掃除・係・日直などに。印刷できます。</p>
         <span class="open">ひらく →</span>
       </a>
 

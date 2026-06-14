@@ -111,3 +111,23 @@ a{color:var(--brass); text-underline-offset:2px; text-decoration-thickness:1px;}
 @media(prefers-reduced-motion:reduce){
   .bin{transition:none;}
 }
+
+/* --- 量産ツール共通：テキスト入力・印刷・縦書き --- */
+textarea{font-family:var(--sans);font-size:16px;width:100%;padding:11px 13px;
+  border:1px solid var(--hair);border-radius:6px;min-height:110px;resize:vertical;color:var(--ink);background:#fff;}
+textarea:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass);}
+.field input[type=text]{font-family:var(--sans);font-size:18px;color:var(--ink);width:100%;
+  padding:11px 13px;border:1px solid var(--hair);border-radius:6px;background:#fff;}
+.field input[type=text]:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.sheet{background:#fff;border:1px solid var(--hair);border-radius:6px;padding:30px;margin-bottom:18px;color:#15181d;}
+.vertical{writing-mode:vertical-rl;line-height:1.7;}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th,.tbl td{border:1px solid #c9ccd1;padding:8px 10px;text-align:left;font-size:15px;}
+.tbl th{background:#f2f3f5;font-weight:700;}
+@media print{
+  body{background:#fff;color:#000;}
+  body *{visibility:hidden;}
+  .printwrap,.printwrap *{visibility:visible;}
+  .printwrap{position:absolute;left:0;top:0;width:100%;border:none;box-shadow:none;margin:0;}
+}

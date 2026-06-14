@@ -1,0 +1,18 @@
+id: shugi-calc
+title: 結婚式の会費・ご祝儀 早見
+summary: 立場（友人・同僚・親族など）と人数から、ご祝儀・会費の相場の目安と合計をすぐ出します。
+target_query: 結婚式 会費 いくら
+segment: お金の計算
+launched_at: 2026-06-13
+inputs:
+  - {key: relation, label: 立場, type: select, options: [友人, 同僚, 上司, 親族, いとこ]}
+  - {key: count, label: 人数, type: number}
+outputs:
+  - 相場の目安（1人あたり）
+  - 人数ぶんの合計
+logic: |
+  立場ごとの相場テーブルを引き、人数を掛ける。相場は一般的な目安として表示。
+print: false
+copyable: true
+related: []
+notes: 金額はあくまで一般的な目安

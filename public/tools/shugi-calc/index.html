@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>結婚式の会費・ご祝儀 早見｜立場別の目安｜道具屋</title>
+<meta name="description" content="友人・同僚・上司・親族など立場と人数から、結婚式のご祝儀・会費の相場の目安と合計をすぐ表示。あくまで一般的な目安として確認できます。">
+<link rel="canonical" href="https://dooguya.com/tools/shugi-calc/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"結婚式の会費・ご祝儀 早見","applicationCategory":"FinanceApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/shugi-calc/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 結婚式の会費・ご祝儀 早見</p>
+  <h1 class="tool-h1">結婚式の会費・ご祝儀 早見</h1>
+  <p class="tool-sub">立場と人数から、ご祝儀・会費の相場の目安と合計を表示します。金額はあくまで一般的な目安です。</p>
+
+  <div class="panel">
+    <div class="field">
+      <label for="relation">あなたの立場</label>
+      <select id="relation">
+        <option value="友人">友人</option>
+        <option value="同僚">同僚・部下</option>
+        <option value="上司">上司</option>
+        <option value="親族（兄弟姉妹）">親族（兄弟姉妹）</option>
+        <option value="いとこ・親戚">いとこ・親戚</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="count">人数（連名の場合など）</label>
+      <div class="row">
+        <input id="count" type="number" inputmode="numeric" min="1" value="1">
+        <span class="unit">人</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="result" class="result" aria-live="polite"><div class="big">—</div><div class="sub"></div></div>
+
+  <button id="copy" class="btn" type="button">目安をコピー</button>
+
+  <div class="about">
+    <h2>相場の目安</h2>
+    <p>一般的に、友人・同僚は3万円、上司は3〜5万円、兄弟姉妹は5万円、いとこ・親戚は3万円ほどが目安とされます。地域や関係性、披露宴か会費制かによって変わります。</p>
+    <h2>注意</h2>
+    <p>ここに出る金額は確定額ではなく、あくまで一般的な目安です。会費制のパーティーでは案内状に記載の会費が優先されます。最終的にはご自身の関係性に合わせて判断してください。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var rel=document.getElementById("relation");
+  var cnt=document.getElementById("count");
+  var result=document.getElementById("result");
+  var copyBtn=document.getElementById("copy");
+  var table={"友人":[30000,"3万円"],"同僚":[30000,"3万円"],"上司":[30000,"3〜5万円（目安3万）"],"親族（兄弟姉妹）":[50000,"5万円"],"いとこ・親戚":[30000,"3万円"]};
+  var lastText="";
+  function yen(n){ return n.toLocaleString("ja-JP"); }
+  function calc(){
+    var r=rel.value, c=parseInt(cnt.value,10)||1;
+    var t=table[r]; var per=t[0]; var total=per*c;
+    result.className="result";
+    result.innerHTML='<div class="big">'+yen(per)+' <small>円 / 人（目安）</small></div>'+
+      '<div class="sub">'+r+'の目安は '+t[1]+'。'+c+'人ぶんの合計 '+yen(total)+' 円</div>';
+    lastText=r+"のご祝儀目安：1人 "+yen(per)+"円 ×"+c+"人 = "+yen(total)+"円（一般的な目安）";
+  }
+  rel.addEventListener("change",calc); cnt.addEventListener("input",calc);
+  copyBtn.addEventListener("click",function(){
+    navigator.clipboard&&navigator.clipboard.writeText(lastText).then(function(){
+      copyBtn.textContent="コピーしました"; setTimeout(function(){copyBtn.textContent="目安をコピー";},1500);
+    });
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

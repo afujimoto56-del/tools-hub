@@ -1,0 +1,19 @@
+id: keisha-wari
+title: 傾斜割り勘電卓
+summary: 合計と人数に加えて、役職や立場で負担を傾斜配分する割り勘電卓。上司は多め・新人は少なめを自動計算します。
+target_query: 傾斜 割り勘 計算
+segment: お金の計算
+launched_at: 2026-06-13
+inputs:
+  - {key: total, label: 合計金額, type: number, unit: 円}
+  - {key: groups, label: 立場ごとの人数と倍率, type: text}
+outputs:
+  - 立場ごとの1人あたり負担額
+  - 集めた合計と端数
+logic: |
+  各立場の重み合計 = Σ(人数×倍率)。1単位あたり = 合計/重み合計。
+  立場ごと1人あたり = 1単位あたり×倍率（100円単位で切り上げ）。
+print: false
+copyable: true
+related: [wari-calc]
+notes: ""

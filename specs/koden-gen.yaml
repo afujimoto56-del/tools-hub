@@ -1,0 +1,17 @@
+id: koden-gen
+title: 香典袋 表書きジェネレーター
+summary: 宗派（仏式・神式・キリスト教）と名前を選ぶと、香典袋の表書きを縦書きで作成。印刷できます。
+target_query: 香典袋 書き方
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: religion, label: 宗派, type: select, options: [仏式（御霊前）, 仏式（御仏前）, 神式（御玉串料）, キリスト教（御花料）]}
+  - {key: name, label: 名前, type: text}
+outputs:
+  - 縦書きの表書きプレビュー（印刷用）
+logic: |
+  宗派に対応した表書きを上段、名前を下段に縦書きで配置。
+print: true
+copyable: false
+related: [noshi-gen]
+notes: ""

@@ -1,0 +1,17 @@
+id: noshi-gen
+title: のし袋 表書きジェネレーター
+summary: 用途（御祝・御礼・御見舞など）と名前を入れると、のし袋の表書きを縦書きで作成。そのまま印刷できます。
+target_query: のし袋 書き方 印刷
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: purpose, label: 用途, type: select, options: [御祝, 御結婚御祝, 御出産御祝, 御礼, 御見舞, 御餞別, 寿]}
+  - {key: name, label: 名前, type: text}
+outputs:
+  - 縦書きの表書きプレビュー（印刷用）
+logic: |
+  上段に用途、下段に名前を縦書きで配置。印刷時はプレビューだけを出す。
+print: true
+copyable: false
+related: [koden-gen]
+notes: ""

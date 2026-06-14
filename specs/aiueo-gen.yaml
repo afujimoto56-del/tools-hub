@@ -1,0 +1,16 @@
+id: aiueo-gen
+title: あいうえお作文メーカー
+summary: お題の言葉を入れると、各文字を頭文字にした行が並びます。各行に文を書き込んで、きれいに整えて印刷できます。
+target_query: あいうえお作文 作成
+segment: 文章
+launched_at: 2026-06-13
+inputs:
+  - {key: word, label: お題の言葉, type: text}
+outputs:
+  - 頭文字ごとの記入欄と、清書プレビュー（印刷）
+logic: |
+  word を1文字ずつに分け、各文字を行頭に置いた入力欄を作る。入力を清書として縦/横に整えて表示。
+print: true
+copyable: true
+related: []
+notes: 自動で文を作るのではなく、作文を整える道具

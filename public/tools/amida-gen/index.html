@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>あみだくじ作成（人数を入れて印刷）｜道具屋</title>
+<meta name="description" content="参加者と結果（あたり等）を入れると、あみだくじを自動で作成。線をたどった結果の対応も表示し、そのまま印刷できます。">
+<link rel="canonical" href="https://dooguya.com/tools/amida-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"あみだくじ作成","applicationCategory":"GameApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/amida-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / あみだくじ作成</p>
+  <h1 class="tool-h1">あみだくじ作成</h1>
+  <p class="tool-sub">参加者と結果を改行で入れると、あみだくじを作ります。たどった結果の対応も出ます。「引き直す」で別のくじに、「印刷」で図だけを印刷できます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="names">参加者（改行で区切る）</label><textarea id="names">あいさん
+ぼぶさん
+ちかさん
+だいきさん</textarea></div>
+    <div class="field"><label for="results">結果（改行で区切る）</label><textarea id="results">あたり
+はずれ
+はずれ
+そうじ当番</textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="redraw" class="btn" type="button">引き直す</button>
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div id="msg" class="result warn" style="display:none;"></div>
+
+  <div class="printwrap sheet" style="overflow-x:auto;">
+    <div id="ladder" style="text-align:center;"></div>
+    <table class="tbl" id="map" style="margin-top:20px;"></table>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>参加者を上に、結果を下に、それぞれ改行で入れてください（人数と結果の数はそろえます）。「引き直す」を押すたびに横線がランダムに引き直されます。納得のいくくじになったら「印刷する」で図だけを印刷できます。</p>
+    <h2>結果の対応について</h2>
+    <p>図の下に、誰がどの結果になったかの対応表を出します。印刷したものを使って実際に線をたどっても、同じ結果になります。掃除当番決めやプレゼント交換などにどうぞ。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var namesEl=document.getElementById("names");
+  var resultsEl=document.getElementById("results");
+  var ladder=document.getElementById("ladder");
+  var mapT=document.getElementById("map");
+  var msg=document.getElementById("msg");
+
+  function lines(s){ return s.split("\n").map(function(x){return x.trim();}).filter(Boolean); }
+
+  function build(){
+    var names=lines(namesEl.value);
+    var results=lines(resultsEl.value);
+    var n=names.length;
+    if(n<2){ msg.style.display="block"; msg.innerHTML='<div class="big">参加者を2人以上入れてください</div>'; ladder.innerHTML=""; mapT.innerHTML=""; return; }
+    msg.style.display="none";
+    while(results.length<n) results.push("（空き）");
+    results=results.slice(0,n);
+
+    var L=Math.max(7,n*2);
+    var rungs=[];
+    for(var lv=0;lv<L;lv++){
+      var used=[];
+      for(var c=0;c<n-1;c++){
+        if(used[c]) continue;
+        if(Math.random()<0.45){ rungs.push({lv:lv,c:c}); used[c]=true; used[c+1]=true; }
+      }
+    }
+    function hasRung(lv,c){ for(var i=0;i<rungs.length;i++){ if(rungs[i].lv===lv&&rungs[i].c===c) return true; } return false; }
+
+    var ends=[];
+    for(var s=0;s<n;s++){
+      var pos=s;
+      for(var lv2=0;lv2<L;lv2++){
+        if(hasRung(lv2,pos)) pos=pos+1;
+        else if(pos>0&&hasRung(lv2,pos-1)) pos=pos-1;
+      }
+      ends[s]=pos;
+    }
+
+    var gap=Math.max(64,Math.min(90,520/(n-1)));
+    var mL=46, top=44, h=300, bottom=44;
+    var W=mL*2+(n-1)*gap;
+    var Htop=top, y0=Htop+18, y1=y0+h;
+    var totalH=y1+bottom;
+    function colx(i){ return mL+i*gap; }
+    var svg='<svg width="'+W+'" height="'+totalH+'" viewBox="0 0 '+W+' '+totalH+'" style="max-width:100%;font-family:sans-serif;">';
+    for(var i=0;i<n;i++){
+      var x=colx(i);
+      svg+='<line x1="'+x+'" y1="'+y0+'" x2="'+x+'" y2="'+y1+'" stroke="#1A1D21" stroke-width="2"/>';
+      svg+='<text x="'+x+'" y="'+(y0-10)+'" text-anchor="middle" font-size="13" fill="#1A1D21">'+esc(names[i])+'</text>';
+      svg+='<text x="'+x+'" y="'+(y1+22)+'" text-anchor="middle" font-size="13" fill="#8A6420">'+esc(results[i])+'</text>';
+    }
+    rungs.forEach(function(r){
+      var x1=colx(r.c), x2=colx(r.c+1);
+      var y=y0+ (h*(r.lv+1)/(L+1));
+      svg+='<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="#1A1D21" stroke-width="2"/>';
+    });
+    svg+='</svg>';
+    ladder.innerHTML=svg;
+
+    var rows='<thead><tr><th>参加者</th><th>結果</th></tr></thead><tbody>';
+    for(var k=0;k<n;k++){ rows+='<tr><td>'+esc(names[k])+'</td><td>'+esc(results[ends[k]])+'</td></tr>'; }
+    rows+='</tbody>';
+    mapT.innerHTML=rows;
+  }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  namesEl.addEventListener("input",build);
+  resultsEl.addEventListener("input",build);
+  document.getElementById("redraw").addEventListener("click",build);
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  build();
+})();
+</script>
+</body>
+</html>

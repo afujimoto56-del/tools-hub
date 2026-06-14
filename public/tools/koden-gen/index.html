@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>香典袋 表書きジェネレーター（宗派別・印刷）｜道具屋</title>
+<meta name="description" content="仏式・神式・キリスト教など宗派と名前を選ぶと、香典袋の表書き（御霊前・御仏前・御玉串料・御花料）を縦書きで作成。印刷もできます。">
+<link rel="canonical" href="https://dooguya.com/tools/koden-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"香典袋 表書きジェネレーター","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/koden-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 香典袋 表書きジェネレーター</p>
+  <h1 class="tool-h1">香典袋 表書きジェネレーター</h1>
+  <p class="tool-sub">宗派と名前を選ぶと、香典袋の表書きを縦書きで組みます。「印刷」でプレビューだけを印刷できます。</p>
+
+  <div class="panel">
+    <div class="field">
+      <label for="religion">宗派・表書き</label>
+      <select id="religion">
+        <option value="御霊前">仏式（御霊前）</option>
+        <option value="御仏前">仏式・四十九日以降（御仏前）</option>
+        <option value="御玉串料">神式（御玉串料）</option>
+        <option value="御花料">キリスト教（御花料）</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="name">名前（下段に入る氏名）</label>
+      <input id="name" type="text" value="山田 太郎">
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet" style="text-align:center;min-height:440px;padding-top:40px;">
+    <div id="pv-purpose" style="font-size:36px;line-height:1.18;margin-bottom:34px;"></div>
+    <div id="pv-name" style="font-size:27px;line-height:1.3;color:#333;"></div>
+  </div>
+
+  <div class="about">
+    <h2>表書きの選び方</h2>
+    <p>仏式では通夜・葬儀は「御霊前」、四十九日の法要以降は「御仏前」を使うのが一般的です。神式は「御玉串料」、キリスト教は「御花料」を用います。宗派が分からない場合は「御霊前」が比較的広く使われます。</p>
+    <h2>使い方</h2>
+    <p>宗派を選び、名前を入れて「印刷する」を押すと、操作部分は消えて表書きのプレビューだけが印刷されます。書き方の確認や下書きにお使いください。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var r=document.getElementById("religion");
+  var n=document.getElementById("name");
+  var pv=document.getElementById("pv-purpose");
+  var nv=document.getElementById("pv-name");
+  function stack(el,text){
+    el.innerHTML="";
+    Array.from(String(text)).forEach(function(ch){
+      var d=document.createElement("div");
+      d.textContent=(ch===" "||ch==="　")?"\u00A0":ch;
+      el.appendChild(d);
+    });
+  }
+  function up(){ stack(pv,r.value); stack(nv,n.value||"（名前）"); }
+  r.addEventListener("change",up); n.addEventListener("input",up);
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  up();
+})();
+</script>
+</body>
+</html>

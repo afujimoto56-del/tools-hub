@@ -1,0 +1,17 @@
+id: kairan-gen
+title: 回覧板・順番表ジェネレーター
+summary: 世帯名を入れると、回覧板の回す順番表を作成。班・開始位置の指定もでき、印刷できます。
+target_query: 回覧板 順番表 作成
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: households, label: 世帯名（改行区切り）, type: text}
+  - {key: title, label: 表題, type: text}
+outputs:
+  - 順番表（印刷用）
+logic: |
+  入力順に番号を振り、次の人へ矢印で回す順番表を作る。
+print: true
+copyable: false
+related: [touban-gen]
+notes: ""

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>あいうえお作文メーカー（作って整えて印刷）｜道具屋</title>
+<meta name="description" content="お題の言葉を入れると、一文字ずつが行頭に並びます。各行に文を書き込むと、清書を整えて表示。コピーも印刷もできるあいうえお作文メーカー。">
+<link rel="canonical" href="https://dooguya.com/tools/aiueo-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"あいうえお作文メーカー","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/aiueo-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / あいうえお作文メーカー</p>
+  <h1 class="tool-h1">あいうえお作文メーカー</h1>
+  <p class="tool-sub">お題の言葉を入れると、一文字ずつが行頭に並びます。各行に続きの文を書き込むと、清書を整えて表示します。コピー・印刷もできます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="word">お題の言葉</label><input id="word" type="text" value="ありがとう"></div>
+    <div class="field"><label>各行の文（頭文字に続けて書く）</label><div id="rows"></div></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="copy" class="btn" type="button">清書をコピー</button>
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet">
+    <div id="out" style="font-size:18px;line-height:2.0;"></div>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>お題の言葉を入れると、その文字数ぶんの記入欄が出ます。各文字を頭文字にした文を書き込むと、下の清書に反映されます。たとえば「あ」→「ありがとう いつも」のように、自由に文を作ってください。</p>
+    <h2>自動では作りません</h2>
+    <p>この道具は文を自動で考えるのではなく、あなたが作った作文をきれいに整える道具です。寄せ書き、メッセージカード、お祝いの言葉づくりにどうぞ。完成したらコピーや印刷で持ち出せます。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var wordEl=document.getElementById("word");
+  var rowsEl=document.getElementById("rows");
+  var out=document.getElementById("out");
+  var lastText="";
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  function rebuild(){
+    var chars=Array.from(wordEl.value.trim());
+    var prev={};
+    rowsEl.querySelectorAll("input").forEach(function(inp){ prev[inp.dataset.k]=inp.value; });
+    rowsEl.innerHTML="";
+    chars.forEach(function(ch,i){
+      var wrap=document.createElement("div");
+      wrap.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:8px;";
+      var key=ch+"_"+i;
+      wrap.innerHTML='<span style="font-size:20px;font-weight:700;width:28px;text-align:center;color:#8A6420;">'+esc(ch)+'</span>'+
+        '<input type="text" data-k="'+key+'" placeholder="（'+esc(ch)+'からはじまる文）" style="flex:1;padding:9px 11px;border:1px solid #c9ccd1;border-radius:6px;font-size:16px;">';
+      rowsEl.appendChild(wrap);
+      var inp=wrap.querySelector("input");
+      if(prev[key]!==undefined) inp.value=prev[key];
+      inp.addEventListener("input",render);
+    });
+    render();
+  }
+  function render(){
+    var chars=Array.from(wordEl.value.trim());
+    var inputs=rowsEl.querySelectorAll("input");
+    var html="", txt=[];
+    chars.forEach(function(ch,i){
+      var v=inputs[i]?inputs[i].value.trim():"";
+      var full = v || ch;
+      var rest = full.indexOf(ch)===0 ? full.slice(ch.length) : full;
+      html+='<div><span style="color:#8A6420;font-weight:700;">'+esc(ch)+'</span>'+esc(rest)+'</div>';
+      txt.push(full);
+    });
+    out.innerHTML=html||'<span style="color:#999;">お題の言葉を入れてください</span>';
+    lastText=txt.join("\n");
+  }
+  wordEl.addEventListener("input",rebuild);
+  document.getElementById("copy").addEventListener("click",function(){
+    if(!lastText)return; var b=document.getElementById("copy");
+    navigator.clipboard&&navigator.clipboard.writeText(lastText).then(function(){
+      b.textContent="コピーしました"; setTimeout(function(){b.textContent="清書をコピー";},1500);
+    });
+  });
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  rebuild();
+})();
+</script>
+</body>
+</html>

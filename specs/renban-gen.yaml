@@ -1,0 +1,20 @@
+id: renban-gen
+title: 連番・通し番号ジェネレーター
+summary: 開始番号・個数・桁数・接頭辞/接尾辞を指定して、連番を一括生成。コピーも印刷もできます。
+target_query: 連番 作成
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: prefix, label: 接頭辞, type: text}
+  - {key: start, label: 開始番号, type: number}
+  - {key: count, label: 個数, type: number}
+  - {key: digits, label: 桁数（ゼロ埋め）, type: number}
+  - {key: suffix, label: 接尾辞, type: text}
+outputs:
+  - 連番のリスト（コピー/印刷）
+logic: |
+  start から count 個、digits 桁でゼロ埋めし、prefix と suffix を付けて並べる。
+print: true
+copyable: true
+related: []
+notes: ""

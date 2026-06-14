@@ -1,0 +1,18 @@
+id: moji-count
+title: 用途別 文字数カウント
+summary: 入力した文章の文字数を即カウント。X(Twitter)・原稿用紙・ES・メタディスクリプションなど用途別の上限つきで、あとどれだけ書けるかが分かります。
+target_query: 文字数 カウント 制限
+segment: 文章
+launched_at: 2026-06-13
+inputs:
+  - {key: text, label: 文章, type: text}
+outputs:
+  - 文字数（空白あり/なし）
+  - 用途別の残り文字数
+logic: |
+  文字数 = text.length。空白なし = 空白除去後の長さ。原稿用紙 = ceil(文字数/400)枚。
+  各用途の上限から残り = 上限 - 文字数。
+print: false
+copyable: true
+related: []
+notes: ""

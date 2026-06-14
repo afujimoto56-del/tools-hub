@@ -1,0 +1,20 @@
+id: shojo-gen
+title: 賞状・表彰状ジェネレーター
+summary: 受賞者名・賞名・本文・日付・贈呈者を入れると、賞状のレイアウトを作成。そのまま印刷できます。
+target_query: 賞状 テンプレート 無料
+segment: 印刷もの
+launched_at: 2026-06-13
+inputs:
+  - {key: award, label: 賞名, type: text}
+  - {key: name, label: 受賞者名, type: text}
+  - {key: body, label: 本文, type: text}
+  - {key: date, label: 日付, type: text}
+  - {key: giver, label: 贈呈者, type: text}
+outputs:
+  - 賞状レイアウト（印刷用）
+logic: |
+  縦位置に賞名・受賞者名・本文・日付・贈呈者を配置した賞状を組む。
+print: true
+copyable: false
+related: []
+notes: ""

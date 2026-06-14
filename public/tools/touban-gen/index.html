@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>当番表ジェネレーター（掃除・係・日直／無料・印刷）｜道具屋</title>
+<meta name="description" content="メンバーと当番（日付や係名）を改行で入れると、順番に割り当てた当番表を作成。掃除当番・日直・係決めに。そのまま印刷できます。">
+<link rel="canonical" href="https://dooguya.com/tools/touban-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"当番表ジェネレーター","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/touban-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 当番表ジェネレーター</p>
+  <h1 class="tool-h1">当番表ジェネレーター</h1>
+  <p class="tool-sub">メンバーと、当番の枠（日付や係名）を入れると、順番に割り当てた当番表を作ります。「印刷」で表だけを印刷できます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="title">表題</label><input id="title" type="text" value="そうじ当番表"></div>
+    <div class="field"><label for="members">メンバー（改行で区切る）</label><textarea id="members">あおい
+はると
+ゆい
+そうた</textarea></div>
+    <div class="field"><label for="slots">当番の枠：日付や係名（改行で区切る）</label><textarea id="slots">月曜
+火曜
+水曜
+木曜
+金曜</textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet">
+    <h2 id="pv-title" style="text-align:center;font-family:var(--serif);margin:0 0 18px;font-size:22px;">そうじ当番表</h2>
+    <table class="tbl" id="out"></table>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>メンバーと、当番の枠（曜日・日付・係名など）を改行で入れると、枠の順にメンバーを割り当てた表ができます。メンバー数より枠が多い場合は、先頭に戻って繰り返し割り当てます。</p>
+    <h2>こんな当番に</h2>
+    <p>掃除当番、日直、ゴミ当番、係決め、シフトの下書きなど。表題を変えれば用途に合わせて使えます。印刷して掲示板や黒板の横に貼っておけます。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var titleEl=document.getElementById("title");
+  var mEl=document.getElementById("members");
+  var sEl=document.getElementById("slots");
+  var out=document.getElementById("out");
+  var pvTitle=document.getElementById("pv-title");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function ls(s){ return s.split("\n").map(function(x){return x.trim();}).filter(Boolean); }
+  function up(){
+    pvTitle.textContent=titleEl.value||"当番表";
+    var m=ls(mEl.value), s=ls(sEl.value);
+    var rows='<thead><tr><th>当番</th><th>担当</th><th style="width:120px;">確認</th></tr></thead><tbody>';
+    if(m.length===0||s.length===0){ rows+='<tr><td colspan="3" style="text-align:center;color:#999;">メンバーと当番枠を入れてください</td></tr>'; }
+    else { for(var i=0;i<s.length;i++){ rows+='<tr><td>'+esc(s[i])+'</td><td>'+esc(m[i%m.length])+'</td><td></td></tr>'; } }
+    rows+='</tbody>';
+    out.innerHTML=rows;
+  }
+  [titleEl,mEl,sEl].forEach(function(el){ el.addEventListener("input",up); });
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  up();
+})();
+</script>
+</body>
+</html>

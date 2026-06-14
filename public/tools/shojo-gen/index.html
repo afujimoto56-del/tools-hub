@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>賞状・表彰状ジェネレーター（無料・印刷）｜道具屋</title>
+<meta name="description" content="賞名・受賞者名・本文・日付・贈呈者を入れるだけで、賞状のレイアウトを作成。そのまま印刷して使える無料の表彰状メーカーです。">
+<link rel="canonical" href="https://dooguya.com/tools/shojo-gen/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"賞状・表彰状ジェネレーター","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/shojo-gen/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 賞状・表彰状ジェネレーター</p>
+  <h1 class="tool-h1">賞状・表彰状ジェネレーター</h1>
+  <p class="tool-sub">項目を入れると賞状のレイアウトを組みます。「印刷」で賞状部分だけを印刷できます。横向き・厚紙に印刷するときれいです。</p>
+
+  <div class="panel">
+    <div class="field"><label for="award">賞名</label><input id="award" type="text" value="努力賞"></div>
+    <div class="field"><label for="name">受賞者名</label><input id="name" type="text" value="山田 太郎 殿"></div>
+    <div class="field"><label for="body">本文</label><textarea id="body" style="min-height:80px;">あなたは日頃の努力により多大な成果をおさめられました　よってここにその栄誉をたたえ表彰します</textarea></div>
+    <div class="field"><label for="date">日付</label><input id="date" type="text" value="令和八年六月十四日"></div>
+    <div class="field"><label for="giver">贈呈者</label><input id="giver" type="text" value="道具屋クラブ　会長"></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet" style="border:6px double #8A6420;padding:46px 40px;min-height:420px;">
+    <div id="pv-award" style="text-align:center;font-family:var(--serif);font-size:34px;letter-spacing:10px;margin-bottom:30px;">努力賞</div>
+    <div id="pv-name" style="font-size:26px;font-family:var(--serif);margin-bottom:26px;border-bottom:1px solid #bbb;display:inline-block;padding:0 8px 4px;">山田 太郎 殿</div>
+    <div id="pv-body" style="font-size:17px;line-height:2.2;margin-bottom:34px;text-align:justify;">—</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--serif);">
+      <div id="pv-date" style="font-size:17px;">—</div>
+      <div id="pv-giver" style="font-size:19px;">—</div>
+    </div>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>賞名・受賞者名・本文・日付・贈呈者を入れると、右のプレビューに反映されます。「印刷する」を押すと操作部分が消え、賞状だけが印刷されます。印刷設定で用紙を横向き（横長）にすると、賞状らしい比率になります。</p>
+    <h2>きれいに仕上げるコツ</h2>
+    <p>本文は句読点の代わりに全角スペースで区切ると、賞状らしい改まった見た目になります。日付は「令和八年六月十四日」のように漢数字で書くと格調が出ます。少し厚手の紙に印刷するのがおすすめです。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var ids=["award","name","body","date","giver"];
+  var map={award:"pv-award",name:"pv-name",body:"pv-body",date:"pv-date",giver:"pv-giver"};
+  function up(){
+    ids.forEach(function(id){
+      var v=document.getElementById(id).value;
+      document.getElementById(map[id]).textContent=v||"—";
+    });
+  }
+  ids.forEach(function(id){ document.getElementById(id).addEventListener("input",up); });
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  up();
+})();
+</script>
+</body>
+</html>

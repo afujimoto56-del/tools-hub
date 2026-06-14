@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>縦書き変換ツール（コピペで縦書き・印刷）｜道具屋</title>
+<meta name="description" content="横書きの文章を貼り付けると縦書きで表示。手紙・案内状・掲示物のレイアウト確認に。そのまま印刷できる無料の縦書き変換ツール。">
+<link rel="canonical" href="https://dooguya.com/tools/tategaki/">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"縦書き変換ツール","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","url":"https://dooguya.com/tools/tategaki/","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="crumbs"><a href="/">道具屋</a> / 縦書き変換ツール</p>
+  <h1 class="tool-h1">縦書き変換ツール</h1>
+  <p class="tool-sub">文章を貼り付けると、縦書きで表示します。文字の大きさを変えたり、そのまま印刷したりできます。</p>
+
+  <div class="panel">
+    <div class="field"><label for="text">文章</label><textarea id="text" style="min-height:130px;">拝啓　時下ますますご清栄のこととお慶び申し上げます。
+このたびは格別のご高配を賜り、誠にありがとうございます。</textarea></div>
+    <div class="field">
+      <label for="size">文字の大きさ</label>
+      <select id="size"><option value="20">小</option><option value="26" selected>中</option><option value="34">大</option></select>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button id="print" class="btn" type="button">印刷する</button>
+  </div>
+
+  <div class="printwrap sheet" style="overflow-x:auto;">
+    <div id="out" style="font-size:26px;font-family:var(--serif);display:flex;flex-direction:row-reverse;justify-content:flex-start;gap:0.35em;"></div>
+  </div>
+
+  <div class="about">
+    <h2>使い方</h2>
+    <p>横書きで入力・貼り付けした文章が、右から左への縦書きで表示されます。改行はそのまま行替えになります。「文字の大きさ」で見え方を調整でき、「印刷する」で縦書き部分だけを印刷できます。</p>
+    <h2>こんなときに</h2>
+    <p>手紙やはがき、案内状、お品書き、掲示物など、縦書きで作りたいものの下書き・レイアウト確認に便利です。印刷して手本にしたり、そのまま掲示したりできます。</p>
+  </div>
+
+  <footer class="foot">
+    <a href="/">道具屋にもどる</a>
+    <a href="/sitemap.xml">サイトマップ</a>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var ta=document.getElementById("text");
+  var out=document.getElementById("out");
+  var size=document.getElementById("size");
+  function up(){
+    out.style.fontSize=size.value+"px";
+    out.innerHTML="";
+    var linesArr=ta.value.split("\n");
+    linesArr.forEach(function(line){
+      var col=document.createElement("div");
+      col.style.cssText="display:flex;flex-direction:column;align-items:center;line-height:1.25;min-width:1.2em;";
+      var chars=Array.from(line);
+      if(chars.length===0){ chars=["\u3000"]; }
+      chars.forEach(function(ch){
+        var d=document.createElement("div");
+        d.textContent=(ch===" "||ch==="　")?"\u3000":ch;
+        col.appendChild(d);
+      });
+      out.appendChild(col);
+    });
+  }
+  ta.addEventListener("input",up); size.addEventListener("change",up);
+  document.getElementById("print").addEventListener("click",function(){ window.print(); });
+  up();
+})();
+</script>
+</body>
+</html>
