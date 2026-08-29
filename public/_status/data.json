@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T02:55:38",
+  "generated_at": "2026-08-29T22:50:04",
   "ref_date": "2026-08-29",
   "data_lag_days": 2,
   "config": {
@@ -1296,16 +1296,16 @@
       "bucket_label": "観察中",
       "action_label": "様子見",
       "verdict": "観察中：シグナル不足",
-      "reason": "公開77日・28日表示3/クリック0。判断材料が足りない",
+      "reason": "公開77日・28日表示6/クリック0。判断材料が足りない",
       "metrics": {
-        "imp_7d": 2,
-        "imp_28d": 3,
+        "imp_7d": 5,
+        "imp_28d": 6,
         "clicks_28d": 0,
         "ctr_28d": 0.0,
-        "pos_28d": 7.3,
+        "pos_28d": 21.0,
         "clicks_recent": 0,
         "clicks_prev": 0,
-        "pos_recent": 7.3,
+        "pos_recent": 21.0,
         "pos_prev": null
       },
       "spark_dates": [
@@ -1364,7 +1364,7 @@
         1,
         0,
         1,
-        0,
+        3,
         0,
         0
       ],
@@ -1411,16 +1411,16 @@
       "bucket_label": "観察中",
       "action_label": "様子見",
       "verdict": "観察中：シグナル不足",
-      "reason": "公開77日・28日表示3/クリック0。判断材料が足りない",
+      "reason": "公開77日・28日表示4/クリック0。判断材料が足りない",
       "metrics": {
-        "imp_7d": 3,
-        "imp_28d": 3,
+        "imp_7d": 4,
+        "imp_28d": 4,
         "clicks_28d": 0,
         "ctr_28d": 0.0,
-        "pos_28d": 60.3,
+        "pos_28d": 59.2,
         "clicks_recent": 0,
         "clicks_prev": 0,
-        "pos_recent": 60.3,
+        "pos_recent": 59.2,
         "pos_prev": null
       },
       "spark_dates": [
@@ -1479,7 +1479,7 @@
         0,
         0,
         3,
-        0,
+        1,
         0,
         0
       ],
