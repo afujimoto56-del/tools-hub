@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T00:08:55",
+  "generated_at": "2026-09-01T22:51:14",
   "ref_date": "2026-09-01",
   "data_lag_days": 2,
   "config": {
@@ -1181,16 +1181,16 @@
       "bucket_label": "殺す候補",
       "action_label": "退場させる",
       "verdict": "退場：離陸せず",
-      "reason": "公開80日・28日表示0（<= 1）。離陸の兆候なし",
+      "reason": "公開80日・28日表示1（<= 1）。離陸の兆候なし",
       "metrics": {
-        "imp_7d": 0,
-        "imp_28d": 0,
+        "imp_7d": 1,
+        "imp_28d": 1,
         "clicks_28d": 0,
         "ctr_28d": 0.0,
-        "pos_28d": null,
+        "pos_28d": 13.0,
         "clicks_recent": 0,
         "clicks_prev": 0,
-        "pos_recent": null,
+        "pos_recent": 13.0,
         "pos_prev": null
       },
       "spark_dates": [
@@ -1249,7 +1249,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0
       ],
@@ -1411,16 +1411,16 @@
       "bucket_label": "観察中",
       "action_label": "様子見",
       "verdict": "観察中：シグナル不足",
-      "reason": "公開80日・28日表示7/クリック0。判断材料が足りない",
+      "reason": "公開80日・28日表示8/クリック0。判断材料が足りない",
       "metrics": {
-        "imp_7d": 5,
-        "imp_28d": 7,
+        "imp_7d": 6,
+        "imp_28d": 8,
         "clicks_28d": 0,
         "ctr_28d": 0.0,
-        "pos_28d": 24.3,
+        "pos_28d": 22.5,
         "clicks_recent": 0,
         "clicks_prev": 0,
-        "pos_recent": 24.3,
+        "pos_recent": 22.5,
         "pos_prev": null
       },
       "spark_dates": [
@@ -1479,7 +1479,7 @@
         3,
         1,
         0,
-        0,
+        1,
         0,
         0
       ],
