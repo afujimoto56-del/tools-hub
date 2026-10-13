@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13T02:16:26",
+  "generated_at": "2026-10-13T23:58:55",
   "ref_date": "2026-10-13",
   "data_lag_days": 2,
   "config": {
@@ -1298,14 +1298,14 @@
       "verdict": "当たり候補：観察継続",
       "reason": "28日クリック2 ・平均11.7位（<= 30）",
       "metrics": {
-        "imp_7d": 4,
-        "imp_28d": 64,
+        "imp_7d": 7,
+        "imp_28d": 67,
         "clicks_28d": 2,
-        "ctr_28d": 0.0312,
+        "ctr_28d": 0.0299,
         "pos_28d": 11.7,
         "clicks_recent": 1,
         "clicks_prev": 1,
-        "pos_recent": 13.8,
+        "pos_recent": 13.4,
         "pos_prev": 11.1
       },
       "spark_dates": [
@@ -1364,7 +1364,7 @@
         2,
         0,
         2,
-        0,
+        3,
         0,
         0
       ],
@@ -1411,16 +1411,16 @@
       "bucket_label": "観察中",
       "action_label": "様子見",
       "verdict": "観察中：シグナル不足",
-      "reason": "公開122日・28日表示17/クリック0。判断材料が足りない",
+      "reason": "公開122日・28日表示18/クリック0。判断材料が足りない",
       "metrics": {
-        "imp_7d": 3,
-        "imp_28d": 17,
+        "imp_7d": 4,
+        "imp_28d": 18,
         "clicks_28d": 0,
         "ctr_28d": 0.0,
-        "pos_28d": 9.9,
+        "pos_28d": 9.6,
         "clicks_recent": 0,
         "clicks_prev": 0,
-        "pos_recent": 12.4,
+        "pos_recent": 11.7,
         "pos_prev": 5.3
       },
       "spark_dates": [
@@ -1479,7 +1479,7 @@
         2,
         0,
         1,
-        0,
+        1,
         0,
         0
       ],
